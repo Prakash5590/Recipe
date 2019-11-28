@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Recipe Store</title>
+    <meta name="description" content="Recipe Store">
+    <meta name="author" content="SitePoint">
+    <style type="text/css">
+    	.left, .right{
+    		
+    		height:50vh;
+    		width:50%;
+    	}
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="../js/angular-module.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color:#E4F9E4;">
+<div ng-app="recipeApp" >
+	<div ng-controller="recipeController" ng-init="init()">
+	<h2 class="text-center" style="color:#4A7349;">Recipe Application</h2>
+		<div class="container">
+  			<div class="row no-gutters">
+    			<div class="col-md-6 no-gutters" >
+    				<div class="left">
+      				
+	      				
+						
+						<table class="table table-bordered">
+							  <thead>
+							    <tr>
+							      <th scope="col">
+							       <label class="control-label ng-scope ng-binding" > Select Recipe </label>
+							      		<select class="form-control" ng-change="getRecipeDetails()" ng-model="selectedRecipe">
+			  								<option >Default select</option>
+			  								<option selected="selected" ng-repeat="recipe in recipies" value="{{recipe.recipieId}}">{{recipe.recipeName}}</option>
+										</select>
+								  </th>
+							      
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <th scope="row"><button type="button" class="btn btn-secondary" ng-click="enableAddButton()">Add New recipe</button></th>
+							      
+							    </tr>
+							    <tr>
+							      <th scope="row"><button type="button" class="btn btn-secondary" ng-click="enableUpdateButton()">Update Recipe</button></th>
+							     
+							    </tr>
+							    <tr>
+							      <th scope="row"><button type="button" class="btn btn-secondary" ng-click="enableDeleteButton()">Delete Recipe</button></th>
+							      
+							    </tr>
+							    <tr>
+							      <th scope="row"><button type="button" class="btn btn-secondary" ng-click="enableSearch()" ng-show="searchEnablerShow">Search Recipe</button>
+							      
+							      <form class="form-inline md-form mr-auto mb-4">
+									  <input class="form-control mr-sm-2" type="text" placeholder="Recipe Name" aria-label="Search" ng-model="searchString" ng-show="searchBar">
+									  <button class="btn aqua-gradient btn-rounded btn-sm my-0" type="submit" ng-click="searchRecipe()" ng-show="searchButton">Search</button>
+									</form>
+							      
+							      </th>
+							      
+							    </tr>
+							    
+							  </tbody>
+							</table>
+					
+					</div>
+    			</div>
+    			<div class="col-md-6 no-gutters" >
+
+      				<div class="right" >
+						
+							<table class="table table-bordered">
+							  <thead>
+							    <tr>
+							      <th scope="col"><label class="control-label ng-scope ng-binding" > Recipe Name :</label><input type="text" class="form-control" id="inputCity" placeholder="Recipe Name" value="{{ selectedRecipeInfo.recipeName }}" ng-model="selectedRecipeInfo.recipeName"></th>
+							      
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <th scope="row"><label class="control-label ng-scope ng-binding" > Date Of Creation :</label><input type="text" class="form-control" id="dateOfCreation" placeholder="Date Of Creation" value="{{ selectedRecipeInfo.dateOfCreation }}" ng-model="selectedRecipeInfo.dateOfCreation"></th>
+							      
+							    </tr>
+							    <tr>
+							      <th scope="row"><label class="control-label ng-scope ng-binding" > Indicator :</label><input type="text" class="form-control" id="indicator" placeholder="Indicator" value="{{ selectedRecipeInfo.indicator }}" ng-model="selectedRecipeInfo.indicator"></th>
+							     
+							    </tr>
+							    <tr>
+							      <th scope="row"><label class="control-label ng-scope ng-binding" > Like Count :</label><input type="text" class="form-control" id="likeCount" placeholder="Like Count" value="{{ selectedRecipeInfo.likeCount }}" ng-model="selectedRecipeInfo.likeCount"></th>
+							      
+							    </tr>
+							    <tr>
+							      <th scope="row"><label class="control-label ng-scope ng-binding" > Cooking Instruction :</label><input type="text" class="form-control" id="cookingInstruction" placeholder="Cooking Instruction" value="{{ selectedRecipeInfo.cookingInstruction }}" ng-model="selectedRecipeInfo.cookingInstruction"></th>
+							      
+							    </tr>
+							    <tr>
+							      <th scope="row"><label class="control-label ng-scope ng-binding" > Ingredients :</label><input type="text" class="form-control" id="ingredients" placeholder="Ingredients" value="{{ selectedRecipeInfo.ingredients }}" ng-model="selectedRecipeInfo.ingredients"></th>
+							      
+							    </tr>
+							    <tr>
+							      <th scope="row"><img ng-src="{{ selectedRecipeInfo.imageUrl || 'images/all.jpg' }}" alt="Image " width="307" height="240" class="img-responsive" >
+							      	<input type="text" class="form-control" id="imgUrl" placeholder="Image URL" value="{{ selectedRecipeInfo.imageUrl }}" ng-model="selectedRecipeInfo.imageUrl" ng-show="showImageUrl">
+							      </th>
+							      
+							    </tr>
+							    <tr>
+							      <td scope="row"><button type="button" class="btn btn-secondary" ng-click="addNewRecipe()" ng-show="addButtonShow">Add Recipe</button>
+							     <button type="button" class="btn btn-secondary" ng-click="updateRecipe(selectedRecipeInfo)" ng-show="updateButtonShow">Update</button>
+							      <button type="button" class="btn btn-secondary" ng-click="deleteRecipe()" ng-show="deleteButtonShow">Delete</button></td>
+							    </tr>
+							    
+							  </tbody>
+							</table>
+					
+      				</div>
+      				
+    			</div>
+  			</div>
+		</div>
+		
+	</div>
+
+</div>
+
+</body>
+</html>
